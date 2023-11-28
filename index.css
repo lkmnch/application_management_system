@@ -1,0 +1,8 @@
+.overviewTable,
+th,
+td {
+	border: 5px;
+	border-color: black;
+	border: solid;
+	font-size: large;
+}

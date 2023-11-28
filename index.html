@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./index.css" />
+		<script src="./main.js" defer></script>
+		<title>Application Management System</title>
+	</head>
+	<body>
+		<h1>Application Management System</h1>
+		<button id="createButton">Create new entry</button>
+		<button>delete selected entries</button>
+		<table class="overviewTable" id="overviewTable">
+			<thead>
+				<tr>
+					<th>Company</th>
+					<th>Job</th>
+					<th>Contact</th>
+					<th>Location</th>
+					<th>Jobtype</th>
+					<th>Status</th>
+					<th>Requirements</th>
+					<th>From where?</th>
+				</tr>
+			</thead>
+			<tbody id="tbody">
+				<tr>
+					<td>Deutsche Bahn</td>
+					<td>Frontend Developer</td>
+					<td>Max Mustermann</td>
+					<td>Frankfurt am Main</td>
+					<td>Hybrid</td>
+					<td>Applied</td>
+					<td>
+						<ul>
+							<li>HTML</li>
+							<li>CSS</li>
+							<li>JavaScript</li>
+						</ul>
+					</td>
+					<td><a href="www.indeed.com">indeed</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<form action="" id="createApplicationForm">
+			<div>
+				<label for="company">Company:</label>
+				<input type="text" name="company" id="company" required />
+			</div>
+			<div>
+				<label for="job">Job:</label>
+				<input type="text" name="job" id="job" required />
+			</div>
+			<div>
+				<label for="contact">Contact:</label>
+				<input type="text" name="contact" id="contact" required />
+			</div>
+			<div>
+				<label for="location">Location:</label>
+				<input type="text" name="location" id="location" required />
+			</div>
+			<div>
+				<label for="jobtype">Jobtype:</label>
+				<input type="text" name="jobtype" id="jobtype" required />
+			</div>
+			<div>
+				<label for="status">Status:</label>
+				<input type="text" name="status" id="status" required />
+			</div>
+			<div>
+				<input
+					type="submit"
+					id="createApplicationButon"
+					value="create Application" />
+			</div>
+		</form>
+	</body>
+</html>
