@@ -1,18 +1,25 @@
 const createButton = document.getElementById("createButton")
 const overViewTable = document.getElementById("tbody")
-
 const createApplicationForm = document.getElementById("createApplicationForm")
 const formElements = Array.from(
 	document.getElementById("createApplicationForm").elements
 )
-
-console.log(formElements)
-
 const createApplicationButton = document.getElementById(
-	"createApplicationButon"
+	"createApplicationButton"
 )
+const closeDialogButton = document.getElementById("closeDialogButton")
+const addApplicationDialog = document.getElementById("addApplicationDialog")
 
-createApplicationForm.onsubmit = (e) => {
+createButton.addEventListener("click", () => {
+	addApplicationDialog.showModal()
+})
+
+closeDialogButton.addEventListener("click", () => {
+	addApplicationDialog.close()
+	createApplicationForm.reset()
+})
+
+createApplicationForm.addEventListener("submit", (e) => {
 	e.preventDefault()
 	const newRow = document.createElement("tr")
 	formElements.forEach((element) => {
@@ -24,4 +31,5 @@ createApplicationForm.onsubmit = (e) => {
 	})
 	overViewTable.appendChild(newRow)
 	createApplicationForm.reset()
-}
+	addApplicationDialog.close()
+})

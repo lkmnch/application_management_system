@@ -43,37 +43,40 @@
 				</tr>
 			</tbody>
 		</table>
-		<form action="" id="createApplicationForm">
-			<div>
-				<label for="company">Company:</label>
-				<input type="text" name="company" id="company" required />
-			</div>
-			<div>
-				<label for="job">Job:</label>
-				<input type="text" name="job" id="job" required />
-			</div>
-			<div>
-				<label for="contact">Contact:</label>
-				<input type="text" name="contact" id="contact" required />
-			</div>
-			<div>
-				<label for="location">Location:</label>
-				<input type="text" name="location" id="location" required />
-			</div>
-			<div>
-				<label for="jobtype">Jobtype:</label>
-				<input type="text" name="jobtype" id="jobtype" required />
-			</div>
-			<div>
-				<label for="status">Status:</label>
-				<input type="text" name="status" id="status" required />
-			</div>
-			<div>
-				<input
-					type="submit"
-					id="createApplicationButon"
-					value="create Application" />
-			</div>
-		</form>
+		<dialog id="addApplicationDialog">
+			<button value="cancel" id="closeDialogButton">Cancel</button>
+			<form action="" id="createApplicationForm">
+				<div>
+					<label for="company">Company:</label>
+					<input type="text" name="company" id="company" required />
+				</div>
+				<div>
+					<label for="job">Job:</label>
+					<input type="text" name="job" id="job" required />
+				</div>
+				<div>
+					<label for="contact">Contact:</label>
+					<input type="text" name="contact" id="contact" required />
+				</div>
+				<div>
+					<label for="location">Location:</label>
+					<input type="text" name="location" id="location" required />
+				</div>
+				<div>
+					<label for="jobtype">Jobtype:</label>
+					<input type="text" name="jobtype" id="jobtype" required />
+				</div>
+				<div>
+					<label for="status">Status:</label>
+					<input type="text" name="status" id="status" required />
+				</div>
+				<div>
+					<input
+						type="submit"
+						id="createApplicationButton"
+						value="create Application" />
+				</div>
+			</form>
+		</dialog>
 	</body>
 </html>
