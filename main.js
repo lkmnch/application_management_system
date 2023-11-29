@@ -45,32 +45,32 @@ let applications = [
 	}, */
 	},
 ]
-let rowIndex = 0
-const addNewApplication = (application) => {
-	let formData = new FormData(application)
-	//todo --- FormData nochmal anschauen
 
-	console.log(Object.fromEntries(formData))
+const addNewApplication = (application) => {
+	//TODO
+	// reload site or rerender table after adding
+	//https://stackoverflow.com/questions/10841239/enabling-refreshing-for-specific-html-elements-only
+	let formData = new FormData(application)
+	let formDataObject = Object.fromEntries(formData) // gibt Objekt mit key/value Paaren zurück aus Instanz formData
+	let existing = localStorage.getItem("applications")
+	existing = existing ? JSON.parse(existing) : []
+	console.log(existing)
+	existing.push(formDataObject)
+	localStorage.setItem("applications", JSON.stringify(existing))
+
+	formDataValues = Object.values(formDataObject)
 	const newRow = document.createElement("tr")
 	const checkBox = document.createElement("td")
-	checkBox.innerHTML = `<input type="checkbox" name=${rowIndex} />&nbsp;`
+	checkBox.innerHTML = `<input type="checkbox" />&nbsp;`
 	newRow.appendChild(checkBox)
 
-	applications = application.map((inputField) => ({
-		...inputField,
-		[inputField.name]: inputField.value,
-	}))
-	localStorage.setItem("applications", JSON.stringify(applications))
-	applications.forEach((element) => {
-		if (Object.keys(element).toString() !== "submit") {
-			const tableData = document.createElement("td")
-			tableData.innerHTML = Object.values(element)
-			newRow.appendChild(tableData)
-		}
+	formDataValues.forEach((value) => {
+		const tableData = document.createElement("td")
+		tableData.innerHTML = value
+		newRow.appendChild(tableData)
 	})
 
 	overViewTable.appendChild(newRow)
-	rowIndex++
 }
 
 const updateApplication = () => {}
@@ -80,28 +80,33 @@ const deleteApplication = () => {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	//todo add checkbox and checkboxIndex in localStorage
-	let tableRow = document.createElement("tr")
-	const applicationsData = JSON.parse(localStorage.getItem("applications"))
-	console.log(applicationsData)
-	if (applicationsData !== null) {
-		overViewTable.innerText = ""
-		applicationsData.forEach((item) => {
-			const tableData = document.createElement("td")
-			tableData.innerHTML = Object.values(item)
-			tableRow.appendChild(tableData)
-		})
-		overViewTable.appendChild(tableRow)
-	} else {
-		overViewTable.innerText = "List is empty create entry"
-	}
+	let existing = localStorage.getItem("applications")
+	existing = existing ? JSON.parse(existing) : []
+	existing.length
+		? existing.forEach((element) => {
+				let tableRow = document.createElement("tr")
+				const checkBox = document.createElement("td")
+				checkBox.innerHTML = `<input type="checkbox"  />&nbsp;`
+				tableRow.appendChild(checkBox)
+				const elementValues = Object.values(element)
+				elementValues.forEach((value) => {
+					const tableData = document.createElement("td")
+					tableData.innerHTML = value
+					tableRow.appendChild(tableData)
+				})
+				overViewTable.appendChild(tableRow)
+		  })
+		: (overViewTable.innerText = "List is empty create entry")
 })
 
 createButton.addEventListener("click", () => {
 	addApplicationDialog.showModal()
 })
 
-deleteList.addEventListener("click", () => deleteApplication())
+deleteList.addEventListener("click", () => {
+	deleteApplication()
+	location.reload()
+})
 
 closeDialogButton.addEventListener("click", () => {
 	addApplicationDialog.close()
@@ -115,6 +120,7 @@ createApplicationForm.addEventListener("submit", (e) => {
 
 	createApplicationForm.reset()
 	addApplicationDialog.close()
+	location.reload()
 })
 
 //show detail modal of each application
