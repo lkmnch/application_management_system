@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				const checkBox = document.createElement("td")
 				checkBox.innerHTML = `<input type="checkbox"  />&nbsp;`
 				tableRow.appendChild(checkBox)
-				const elementValues = Object.values(element)
+				const elementValues = Object.values(element.formDataObject)
 				elementValues.forEach((value) => {
 					const tableData = document.createElement("td")
 					tableData.innerHTML = value

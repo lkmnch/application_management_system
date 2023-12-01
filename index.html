@@ -17,12 +17,12 @@
 					<th></th>
 					<th>Company</th>
 					<th>Job</th>
-					<th>Contact</th>
+					<!-- <th>Contact</th>
 					<th>Location</th>
-					<th>Jobtype</th>
+					<th>Jobtype</th> -->
 					<th>Status</th>
-					<th>Requirements</th>
-					<th>From where?</th>
+					<!-- <th>Requirements</th>
+					<th>From where?</th> -->
 					<th>Details</th>
 				</tr>
 			</thead>
@@ -39,7 +39,7 @@
 					<label for="job">Job:</label>
 					<input type="text" name="job" id="job" required />
 				</div>
-				<div>
+				<!-- div>
 					<label for="contact">Contact:</label>
 					<input type="text" name="contact" id="contact" required />
 				</div>
@@ -50,10 +50,16 @@
 				<div>
 					<label for="jobtype">Jobtype:</label>
 					<input type="text" name="jobtype" id="jobtype" required />
-				</div>
+				</div> -->
 				<div>
 					<label for="status">Status:</label>
-					<input type="text" name="status" id="status" required />
+					<select name="status" id="status">
+						<option value="Applied">Applied</option>
+						<option value="Not Applied">Not Applied</option>
+						<option value="In Progress">In Progress</option>
+						<option value="Completed">Completed</option>
+						<option value="Rejected">Rejected</option>
+					</select>
 				</div>
 				<div>
 					<input
