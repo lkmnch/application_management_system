@@ -12,9 +12,6 @@ const createApplicationButton = document.getElementById(
 const closeDialogButton = document.getElementById("closeDialogButton")
 const addApplicationDialog = document.getElementById("addApplicationDialog")
 
-const applicationDetailsButton = document.getElementById(
-	"applicationDetailsButton"
-)
 const applicationDetailsDialog = document.getElementById(
 	"applicationDetailsDialog"
 )
@@ -52,13 +49,15 @@ const addNewApplication = (application) => {
 	//https://stackoverflow.com/questions/10841239/enabling-refreshing-for-specific-html-elements-only
 	let formData = new FormData(application)
 	let formDataObject = Object.fromEntries(formData) // gibt Objekt mit key/value Paaren zurück aus Instanz formData
+
 	let existing = localStorage.getItem("applications")
 	existing = existing ? JSON.parse(existing) : []
-	console.log(existing)
+	let id = existing.length ? existing[existing.length - 1].id + 1 : 0
+	formDataObject = { id: id, formDataObject }
 	existing.push(formDataObject)
 	localStorage.setItem("applications", JSON.stringify(existing))
 
-	formDataValues = Object.values(formDataObject)
+	/* 	formDataValues = Object.values(formDataObject)
 	const newRow = document.createElement("tr")
 	const checkBox = document.createElement("td")
 	checkBox.innerHTML = `<input type="checkbox" />&nbsp;`
@@ -70,7 +69,7 @@ const addNewApplication = (application) => {
 		newRow.appendChild(tableData)
 	})
 
-	overViewTable.appendChild(newRow)
+	overViewTable.appendChild(newRow) */
 }
 
 const updateApplication = () => {}
@@ -82,8 +81,10 @@ const deleteApplication = () => {
 document.addEventListener("DOMContentLoaded", () => {
 	let existing = localStorage.getItem("applications")
 	existing = existing ? JSON.parse(existing) : []
+	console.log(existing)
 	existing.length
 		? existing.forEach((element) => {
+				console.log(element)
 				let tableRow = document.createElement("tr")
 				const checkBox = document.createElement("td")
 				checkBox.innerHTML = `<input type="checkbox"  />&nbsp;`
@@ -94,6 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
 					tableData.innerHTML = value
 					tableRow.appendChild(tableData)
 				})
+				const applicationDetailsButton = document.createElement("button")
+				applicationDetailsButton.innerText = "Details"
+				applicationDetailsButton.id = "applicationDetailsButton"
+				tableRow.appendChild(applicationDetailsButton)
 				overViewTable.appendChild(tableRow)
 		  })
 		: (overViewTable.innerText = "List is empty create entry")
