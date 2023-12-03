@@ -13,3 +13,7 @@ body {
 	align-items: center;
 	justify-items: center;
 }
+
+.hidden {
+	display: none;
+}

@@ -9,69 +9,79 @@
 	</head>
 	<body>
 		<h1>Application Management System</h1>
-		<button id="createButton">Create new entry</button>
-		<button id="deleteList">delete selected entries</button>
-		<table class="overviewTable" id="overviewTable">
-			<thead>
-				<tr>
-					<th></th>
-					<th>Company</th>
-					<th>Job</th>
-					<!-- <th>Contact</th>
-					<th>Location</th>
-					<th>Jobtype</th> -->
-					<th>Status</th>
-					<!-- <th>Requirements</th>
-					<th>From where?</th> -->
-					<th>Details</th>
-				</tr>
-			</thead>
-			<tbody id="tbody"></tbody>
-		</table>
-		<dialog id="addApplicationDialog">
-			<button value="cancel" id="closeDialogButton">Cancel</button>
-			<form action="" id="createApplicationForm">
-				<div>
-					<label for="company">Company:</label>
-					<input type="text" name="company" id="company" required />
-				</div>
-				<div>
-					<label for="job">Job:</label>
-					<input type="text" name="job" id="job" required />
-				</div>
-				<!-- div>
-					<label for="contact">Contact:</label>
-					<input type="text" name="contact" id="contact" required />
-				</div>
-				<div>
-					<label for="location">Location:</label>
-					<input type="text" name="location" id="location" required />
-				</div>
-				<div>
-					<label for="jobtype">Jobtype:</label>
-					<input type="text" name="jobtype" id="jobtype" required />
-				</div> -->
-				<div>
-					<label for="status">Status:</label>
-					<select name="status" id="status">
-						<option value="Applied">Applied</option>
-						<option value="Not Applied">Not Applied</option>
-						<option value="In Progress">In Progress</option>
-						<option value="Completed">Completed</option>
-						<option value="Rejected">Rejected</option>
-					</select>
-				</div>
-				<div>
-					<input
-						type="submit"
-						name="submit"
-						id="createApplicationButton"
-						value="create Application" />
-				</div>
-			</form>
-		</dialog>
-		<dialog id="applicationDetailsDialog">
-			<button id="applicationDetailsDialogClose">X</button>
-		</dialog>
+		<section class="hidden" id="view-loading">
+			<div>Your Job Applications are getting loaded pls wait.</div>
+		</section>
+		<section class="hidden" id="view-ready">
+			<button id="createButton">Create new entry</button>
+			<button id="deleteList">delete selected entries</button>
+			<table class="overviewTable" id="overviewTable">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Company</th>
+						<th>Job</th>
+						<!-- <th>Contact</th>
+						<th>Location</th>
+						<th>Jobtype</th> -->
+						<th>Status</th>
+						<!-- <th>Requirements</th>
+						<th>From where?</th> -->
+						<th>Details</th>
+					</tr>
+				</thead>
+				<tbody id="tbody"></tbody>
+			</table>
+			<dialog id="addApplicationDialog">
+				<button value="cancel" id="closeDialogButton">Cancel</button>
+				<form action="" id="createApplicationForm">
+					<div>
+						<label for="company">Company:</label>
+						<input type="text" name="company" id="company" required />
+					</div>
+					<div>
+						<label for="job">Job:</label>
+						<input type="text" name="job" id="job" required />
+					</div>
+					<div>
+						<label for="contact">Contact:</label>
+						<input type="text" name="contact" id="contact" />
+					</div>
+					<div>
+						<label for="location">Location:</label>
+						<input type="text" name="location" id="location" />
+					</div>
+					<div>
+						<label for="jobtype">Jobtype:</label>
+						<input type="text" name="jobtype" id="jobtype" />
+					</div>
+					<div>
+						<label for="status">Status:</label>
+						<select name="status" id="status">
+							<option value="Applied">Applied</option>
+							<option value="Not Applied">Not Applied</option>
+							<option value="In Progress">In Progress</option>
+							<option value="Completed">Completed</option>
+							<option value="Rejected">Rejected</option>
+						</select>
+					</div>
+					<div>
+						<input
+							type="submit"
+							name="submit"
+							id="createApplicationButton"
+							value="create Application" />
+					</div>
+				</form>
+			</dialog>
+			<dialog id="applicationDetailsDialog">
+				<button id="applicationDetailsDialogClose">X</button>
+			</dialog>
+		</section>
+		<section class="hidden" id="view-error">
+			<div>
+				Their was an error loading your job applications, pls refresh the site!
+			</div>
+		</section>
 	</body>
 </html>

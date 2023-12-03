@@ -1,180 +1,91 @@
-//Constants and state(app Data)
+// (1) Constants and state(app Data)
+const LOADING = 0,
+	READY = 1,
+	ERROR = 2
 
-/* EXAMPLE:
+let state = {
+	applications: [],
+	view: 0,
+}
+let rowId = "" // in state einfügen
 
-const TODAY = Date.now()
-const LOADING = 0, READY = 1, ERROR = 2
+// (2) functions for working with the data.
 
-let state = { ... } */
-
-let applications = [
-	{
-		/* 1:	{
-		selected: false,
-		company: "",
-		job: "",
-		contact: "",
-		location: "",
-		jobtype: "",
-		status: "",
-		requirements: [""],
-		source: "",
-	}, */
-	},
-]
-
-//functions for working with the data.
-
-/* EXAMPLE:
-
-let setLoading = () => state.view = LOADING
-let setReady = () => state.view = READY
+let setLoading = () => (state.view = LOADING)
+let setReady = () => (state.view = READY)
 let isLoading = () => state.view === LOADING
 let isReady = () => state.view === READY
+let isError = () => state.view === ERROR
 
-let loadSongs = () => fetch('/api/songs/)
-  .then(res => res.json())
-  .then(data => {
-    state.songs = data.songs
-    state.view = READY
-  })
-  .catch(() => state.view = ERROR) */
+let loadApplications = () => {
+	let existing = localStorage.getItem("applications")
+	existing = existing ? JSON.parse(existing) : []
 
-//DOM node references
+	state.applications = existing
+	console.log(state.applications)
+}
 
-/* let D = document
-let $play = D.getElementById('play')
-let $stop = D.getElementById('stop')
-let $viewLoading = D.getElementById('view-loading')
-let $viewReady = D.getElementById('view-ready')
-let $$instruments = D.querySelectorAll('.instrument-option') */
-const D = document
-const createButton = document.getElementById("createButton")
-const deleteList = document.getElementById("deleteList")
-const overViewTable = document.getElementById("tbody")
-const createApplicationForm = document.getElementById("createApplicationForm")
-const formElements = document.getElementById("createApplicationForm")
-
-const createApplicationButton = document.getElementById(
-	"createApplicationButton"
-)
-const closeDialogButton = document.getElementById("closeDialogButton")
-const addApplicationDialog = document.getElementById("addApplicationDialog")
-
-const applicationDetailsDialog = document.getElementById(
-	"applicationDetailsDialog"
-)
-const applicationDetailsDialogClose = document.getElementById(
-	"applicationDetailsDialogClose"
-)
-
-//DOM update functions
-
-/* let updateView = () => {
-	$viewLoading.classList.toggle('hidden', !isLoading())
-	$viewReady.classList.toggle('hidden', !isReady())
-	$viewError.classList.toggle('hidden', !isError())
-  }
-  let updateSongDetails = (songData, index) => {
-	let $song = $$songs[index]
-	$song.querySelector('.active')
-	  .classList.toggle('hidden', !isSelected(index))
-	$song.querySelector('.title').textContent = songData.title
-	$song.querySelector('.tempo').textContent = songData.tempo + 'bpm'
-  }
-  let updateSongs = () => state.songs.forEach(updateSongDetails) */
-
-//Event handlers - are called from eventlisteners in the event bindings
-
-/* let onPlay = () => {
-	setPlay()
-	updatePlaybackButton()
-	updateScoresheet()
-	startPlaybackTimer()
-  }
-  let onStop = () => {
-	stopPlaybackTimer()
-	setStop()
-	updatePlaybackButton()
-	updateScoresheet()
-  }
-  let onEdit = scores => {
-	onStop()
-	setScores(scores)
-	updateScoresheet()
-  }
-  let onSongLoaded = () => {
-	setInitialScores()
-	updateScoresheet()
-	updatePlaybackButton()
-	updateLoadError()
-  }
-  let onLoadSong = songId => {
-	onStop()
-	loadSong(songId).then(onSongLoaded)
-  } */
-
-//event bindings
-
-/* $play.onclick = () => onPlay()
-$stop.onclick = () => onStop()
-$scoreEditor.oninput = ev => onEdit(ev.target.value) */
-
-//initial state
-
-/*
-setReady()
-updateView() */
-
-const addNewApplication = (application) => {
-	//TODO
-	// reload site or rerender table after adding
-	//https://stackoverflow.com/questions/10841239/enabling-refreshing-for-specific-html-elements-only
+let addNewApplication = (application) => {
 	let formData = new FormData(application)
 	let formDataObject = Object.fromEntries(formData) // gibt Objekt mit key/value Paaren zurück aus Instanz formData
 
-	let existing = localStorage.getItem("applications")
-	existing = existing ? JSON.parse(existing) : []
-	let id = existing.length ? existing[existing.length - 1].id + 1 : 0
+	let applications = state.applications
+	let id = applications.length
+		? applications[applications.length - 1].id + 1
+		: 0
 	formDataObject = { id: id, formDataObject }
-	existing.push(formDataObject)
-	localStorage.setItem("applications", JSON.stringify(existing))
-
-	/* 	formDataValues = Object.values(formDataObject)
-	const newRow = document.createElement("tr")
-	const checkBox = document.createElement("td")
-	checkBox.innerHTML = `<input type="checkbox" />&nbsp;`
-	newRow.appendChild(checkBox)
-
-	formDataValues.forEach((value) => {
-		const tableData = document.createElement("td")
-		tableData.innerHTML = value
-		newRow.appendChild(tableData)
-	})
-
-	overViewTable.appendChild(newRow) */
+	applications.push(formDataObject)
+	localStorage.setItem("applications", JSON.stringify(applications))
 }
 
 const updateApplication = () => {}
-
 const deleteApplication = () => {
+	//state/appdata loeschen statt quelle (localstorage löschen) x die quelle muss auch geupdatet werden
+	//state an anderen stellen nutzen um daten zum beispiel anzuzeigen
+	state.applications = []
 	localStorage.removeItem("applications")
 }
 
-let rowId = ""
+// (3) DOM node references
 
-const createRows = () => {
-	let existing = localStorage.getItem("applications")
+const D = document
+const $viewLoading = D.getElementById("view-loading")
+const $viewReady = D.getElementById("view-ready")
+const $viewError = D.getElementById("view-error")
 
-	existing = existing ? JSON.parse(existing) : []
+const $create = D.getElementById("createButton")
+const $deleteAll = D.getElementById("deleteList")
+const $overViewTable = D.getElementById("tbody")
+const $createApplicationForm = D.getElementById("createApplicationForm")
+const $formElements = D.getElementById("createApplicationForm")
 
-	if (existing.length) {
-		existing.forEach((element) => {
+const $createApplicationButton = D.getElementById("createApplicationButton")
+const $closeDialogButton = D.getElementById("closeDialogButton")
+const addApplicationDialog = D.getElementById("addApplicationDialog")
+
+const $applicationDetailsDialog = D.getElementById("applicationDetailsDialog")
+const $applicationDetailsDialogClose = D.getElementById(
+	"applicationDetailsDialogClose"
+)
+
+// (4) DOM update functions
+let updateView = () => {
+	$viewLoading.classList.toggle("hidden", !isLoading())
+	$viewReady.classList.toggle("hidden", !isReady())
+	$viewError.classList.toggle("hidden", !isError())
+}
+
+let updateApplicationsTable = () => {
+	$overViewTable.innerHTML = ""
+	if (state.applications.length) {
+		state.applications.forEach((element) => {
+			console.log(Object.keys(element.formDataObject))
+
 			let tableRow = document.createElement("tr")
 			const checkBox = document.createElement("td")
 			checkBox.innerHTML = `<input type="checkbox"  />&nbsp;`
 			tableRow.appendChild(checkBox)
-			const elementValues = Object.values(element.formDataObject)
+			const elementValues = Object.values(element.formDataObject).filter
 			elementValues.forEach((value) => {
 				const tableData = document.createElement("td")
 				tableData.innerHTML = value
@@ -185,52 +96,68 @@ const createRows = () => {
 			applicationDetailsButton.id = `DetailsButtonRow${element.id}`
 			rowId = applicationDetailsButton.id
 			applicationDetailsButton.addEventListener("click", () => {
-				applicationDetailsDialog.showModal()
+				$applicationDetailsDialog.showModal()
 				createDetailsContent(elementValues)
 			})
 			tableRow.appendChild(applicationDetailsButton)
-			overViewTable.appendChild(tableRow)
+			$overViewTable.appendChild(tableRow)
 		})
 	} else {
-		overViewTable.innerText = "List is empty create entry"
+		$overViewTable.innerText = "List is empty create entry"
 	}
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-	createRows()
-})
-
-const createDetailsContent = (applicationValues) => {
-	applicationDetailsDialog.innerHTML = ""
+let createDetailsContent = (applicationValues) => {
+	$applicationDetailsDialog.innerHTML = ""
 	const contentContainer = document.createElement("div")
 	applicationValues.forEach((value) => {
 		const valueDiv = document.createElement("div")
 		valueDiv.innerText = value
 		contentContainer.appendChild(valueDiv)
 	})
-	applicationDetailsDialog.appendChild(contentContainer)
+	$applicationDetailsDialog.appendChild(contentContainer)
+}
+// (5) Event handlers - are called from eventlisteners in the event bindings
+
+let onCreate = () => {
+	addApplicationDialog.showModal()
 }
 
-createButton.addEventListener("click", () => {
-	addApplicationDialog.showModal()
-})
-
-deleteList.addEventListener("click", () => {
+let onDeleteAll = () => {
 	deleteApplication()
-	location.reload()
-})
+	updateApplicationsTable()
+}
 
-closeDialogButton.addEventListener("click", () => {
-	addApplicationDialog.close()
-	createApplicationForm.reset()
-})
-
-createApplicationForm.addEventListener("submit", (e) => {
+let onSubmitNew = (e) => {
 	e.preventDefault()
 
-	addNewApplication(formElements)
+	addNewApplication($formElements)
 
-	createApplicationForm.reset()
+	$createApplicationForm.reset()
 	addApplicationDialog.close()
-	location.reload()
-})
+	updateApplicationsTable()
+}
+
+let onCloseDialog = () => {
+	addApplicationDialog.close()
+	$createApplicationForm.reset()
+}
+// (6) event bindings
+
+$create.onclick = () => onCreate()
+
+$deleteAll.onclick = () => onDeleteAll()
+
+$createApplicationForm.onsubmit = (e) => onSubmitNew(e)
+
+$closeDialogButton.onclick = () => onCloseDialog()
+
+// (7) initial state
+
+setReady()
+updateView()
+loadApplications()
+updateApplicationsTable()
+console.log(state)
+
+// document.addEventListener("DOMContentLoaded", () => {})
