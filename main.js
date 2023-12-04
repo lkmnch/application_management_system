@@ -60,13 +60,16 @@ const $createApplicationForm = D.getElementById("createApplicationForm")
 const $formElements = D.getElementById("createApplicationForm")
 
 const $createApplicationButton = D.getElementById("createApplicationButton")
-const $closeDialogButton = D.getElementById("closeDialogButton")
-const addApplicationDialog = D.getElementById("addApplicationDialog")
+const $closeAddDialog = D.getElementById("closeDialogButton")
+const $addDialog = D.getElementById("addDialog")
 
-const $applicationDetailsDialog = D.getElementById("applicationDetailsDialog")
-const $applicationDetailsDialogClose = D.getElementById(
-	"applicationDetailsDialogClose"
-)
+const $detailsDialog = D.getElementById("detailsDialog")
+const $contentContainer = D.getElementById("detailsContent")
+const $closeDetailsDialog = D.getElementById("detailsDialogClose")
+
+let $$listItems = document.querySelectorAll(".list-item")
+
+// DOM Node creations
 
 // (4) DOM update functions
 let updateView = () => {
@@ -85,21 +88,24 @@ let updateApplicationsTable = () => {
 			const checkBox = document.createElement("td")
 			checkBox.innerHTML = `<input type="checkbox"  />&nbsp;`
 			tableRow.appendChild(checkBox)
-			const elementValues = Object.values(element.formDataObject).filter
+			const elementValues = Object.entries(element.formDataObject).filter(
+				([key]) => (key === "company") | (key === "job") | (key === "status")
+			)
+
+			console.log(elementValues)
 			elementValues.forEach((value) => {
 				const tableData = document.createElement("td")
-				tableData.innerHTML = value
+				tableData.innerHTML = value[1]
 				tableRow.appendChild(tableData)
 			})
-			const applicationDetailsButton = document.createElement("button")
-			applicationDetailsButton.innerText = "Details"
-			applicationDetailsButton.id = `DetailsButtonRow${element.id}`
-			rowId = applicationDetailsButton.id
-			applicationDetailsButton.addEventListener("click", () => {
-				$applicationDetailsDialog.showModal()
-				createDetailsContent(elementValues)
-			})
-			tableRow.appendChild(applicationDetailsButton)
+
+			let $applicationDetailsButton = document.createElement("button")
+			$applicationDetailsButton.innerText = "Details"
+			$applicationDetailsButton.id = `DetailsButtonRow${element.id}`
+			//rowId = $applicationDetailsButton.id
+
+			$applicationDetailsButton.onclick = () => onOpenDetailsDialog(element.id)
+			tableRow.appendChild($applicationDetailsButton)
 			$overViewTable.appendChild(tableRow)
 		})
 	} else {
@@ -107,20 +113,33 @@ let updateApplicationsTable = () => {
 	}
 }
 
-let createDetailsContent = (applicationValues) => {
-	$applicationDetailsDialog.innerHTML = ""
-	const contentContainer = document.createElement("div")
-	applicationValues.forEach((value) => {
-		const valueDiv = document.createElement("div")
-		valueDiv.innerText = value
-		contentContainer.appendChild(valueDiv)
+let createDetailsContent = (applicationId) => {
+	let applications = state.applications
+
+	console.log(applications)
+
+	$$listItems.forEach(($item, idx) => {
+		let item = applications[idx]
+		console.log(item)
+		console.log($item)
+		if (item) {
+			$item.querySelector("#company").textContent = item.formDataObject.company
+			$item.querySelector("#job").textContent = item.formDataObject.job
+			$item.querySelector("#contact").textContent = item.formDataObject.contact
+			$item.querySelector("#location").textContent =
+				item.formDataObject.location
+			$item.querySelector("#jobtype").textContent = item.formDataObject.jobtype
+			$item.querySelector("#source").textContent = item.formDataObject.source
+			$item.querySelector("#requirements").textContent =
+				item.formDataObject.requirements
+			$item.querySelector("#status").textContent = item.formDataObject.status
+		}
 	})
-	$applicationDetailsDialog.appendChild(contentContainer)
 }
 // (5) Event handlers - are called from eventlisteners in the event bindings
 
 let onCreate = () => {
-	addApplicationDialog.showModal()
+	$addDialog.showModal()
 }
 
 let onDeleteAll = () => {
@@ -134,13 +153,20 @@ let onSubmitNew = (e) => {
 	addNewApplication($formElements)
 
 	$createApplicationForm.reset()
-	addApplicationDialog.close()
+	$addDialog.close()
 	updateApplicationsTable()
 }
 
-let onCloseDialog = () => {
-	addApplicationDialog.close()
+let onCloseAddDialog = () => {
+	$addDialog.close()
 	$createApplicationForm.reset()
+}
+let onCloseDetailsDialog = () => {
+	$detailsDialog.close()
+}
+let onOpenDetailsDialog = (applicationId) => {
+	$detailsDialog.showModal()
+	createDetailsContent(applicationId)
 }
 // (6) event bindings
 
@@ -150,7 +176,9 @@ $deleteAll.onclick = () => onDeleteAll()
 
 $createApplicationForm.onsubmit = (e) => onSubmitNew(e)
 
-$closeDialogButton.onclick = () => onCloseDialog()
+$closeAddDialog.onclick = () => onCloseAddDialog()
+
+$closeDetailsDialog.onclick = () => onCloseDetailsDialog()
 
 // (7) initial state
 

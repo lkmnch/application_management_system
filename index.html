@@ -32,32 +32,32 @@
 				</thead>
 				<tbody id="tbody"></tbody>
 			</table>
-			<dialog id="addApplicationDialog">
+			<dialog id="addDialog">
 				<button value="cancel" id="closeDialogButton">Cancel</button>
 				<form action="" id="createApplicationForm">
 					<div>
 						<label for="company">Company:</label>
-						<input type="text" name="company" id="company" required />
+						<input type="text" name="company" id="companyInput" required />
 					</div>
 					<div>
 						<label for="job">Job:</label>
-						<input type="text" name="job" id="job" required />
+						<input type="text" name="job" id="jobInput" required />
 					</div>
 					<div>
 						<label for="contact">Contact:</label>
-						<input type="text" name="contact" id="contact" />
+						<input type="text" name="contact" id="contactInput" />
 					</div>
 					<div>
 						<label for="location">Location:</label>
-						<input type="text" name="location" id="location" />
+						<input type="text" name="location" id="locationInput" />
 					</div>
 					<div>
 						<label for="jobtype">Jobtype:</label>
-						<input type="text" name="jobtype" id="jobtype" />
+						<input type="text" name="jobtype" id="jobtypeInput" />
 					</div>
 					<div>
 						<label for="status">Status:</label>
-						<select name="status" id="status">
+						<select name="status" id="statusSelect">
 							<option value="Applied">Applied</option>
 							<option value="Not Applied">Not Applied</option>
 							<option value="In Progress">In Progress</option>
@@ -74,8 +74,34 @@
 					</div>
 				</form>
 			</dialog>
-			<dialog id="applicationDetailsDialog">
-				<button id="applicationDetailsDialogClose">X</button>
+			<dialog id="detailsDialog">
+				<button id="detailsDialogClose">X</button>
+				<div class="list-item" id="detailsContent">
+					<div>
+						<span> Company: <span id="company"></span> </span>
+					</div>
+					<div>
+						<span>Job: <span id="job"></span></span>
+					</div>
+					<div>
+						<span>Contact: <span id="contact"></span></span>
+					</div>
+					<div>
+						<span>Location: <span id="location"></span></span>
+					</div>
+					<div>
+						<span>Jobtype: <span id="jobtype"></span></span>
+					</div>
+					<div>
+						<span>Source: <span id="source"></span></span>
+					</div>
+					<div>
+						<span>Requirements: <span id="requirements"></span></span>
+					</div>
+					<div>
+						<span>Status: <span id="status"></span></span>
+					</div>
+				</div>
 			</dialog>
 		</section>
 		<section class="hidden" id="view-error">
